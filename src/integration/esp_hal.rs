@@ -540,13 +540,9 @@ impl<const RX: usize, const TX: usize, const BUF: usize> EmacExt for crate::Emac
             esp_hal::interrupt::disable(core, EMAC_INTERRUPT);
         }
 
-        // Bind and enable
-        // SAFETY: We're the only EMAC driver, so we own this interrupt binding
-        unsafe {
-            esp_hal::interrupt::bind_interrupt(EMAC_INTERRUPT, handler.handler());
-        }
-        esp_hal::interrupt::enable(EMAC_INTERRUPT, handler.priority())
-            .expect("Failed to enable EMAC interrupt");
+        // Bind and enable (esp-hal 1.0.0: bind_handler replaces bind_interrupt)
+        esp_hal::interrupt::bind_handler(EMAC_INTERRUPT, handler);
+        esp_hal::interrupt::enable(EMAC_INTERRUPT, handler.priority());
     }
 
     fn disable_interrupt(&mut self) {
