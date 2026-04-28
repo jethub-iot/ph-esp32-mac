@@ -196,8 +196,10 @@ pub use driver::interrupt::InterruptStatus;
 /// understand the ESP32 EMAC hardware and accept responsibility for correct
 /// sequencing and synchronization.
 pub mod unsafe_registers {
+    pub use crate::hal::reset::ResetController;
     pub use crate::internal::register::dma::DmaRegs;
     pub use crate::internal::register::ext::ExtRegs;
+    pub use crate::internal::register::gpio::GpioMatrix;
     pub use crate::internal::register::mac::MacRegs;
 }
 
